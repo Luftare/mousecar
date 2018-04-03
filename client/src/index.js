@@ -1,5 +1,3 @@
-import Vector from './Vector.js';
+import Game from './Game';
 
-const vec = new Vector(1, 5);
-
-console.log(vec);
+const game = new Game();
