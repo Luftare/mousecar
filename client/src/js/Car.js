@@ -13,10 +13,10 @@ export default class Car {
   }
 
   update(dt) {
-
+    this.direction.rotate(1 * dt);
   }
 
-  render(ctx) {
-
+  render(view) {
+    view.drawImage('car', 20, 20, this.direction.angle, 0.1);
   }
 }

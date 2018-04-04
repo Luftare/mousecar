@@ -6,11 +6,14 @@ export default class Game {
   constructor() {
     this.state = this.getInitState();
     this.view = new View({
-      canvas: document.getElementById('game-canvas')
+      canvas: document.getElementById('game-canvas'),
+      imageNames: ['car'],
+      imagesPath: '/src/images'
     });
 
     this.loop = new Loop({
-      onTick: (dt) => {
+      onTick: (dtMs) => {
+        const dt = dtMs / 1000;
         this.update(dt);
         this.render();
       },
@@ -22,8 +25,9 @@ export default class Game {
     this.state.gameObjects.forEach(gameObject => gameObject.update(dt));
   }
 
-  render(ctx) {
-    this.state.gameObjects.forEach(gameObject => gameObject.render(ctx));
+  render() {
+    this.view.preDraw();
+    this.state.gameObjects.forEach(gameObject => gameObject.render(this.view));
   }
 
   getInitState() {

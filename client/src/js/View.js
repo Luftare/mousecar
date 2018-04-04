@@ -1,4 +1,6 @@
-class View {
+import Vector from 'vector';
+
+export default class View {
   constructor({
     canvas = document.querySelector("canvas"),
     imageNames = [],
@@ -7,7 +9,7 @@ class View {
     cameraAngle = 0,
     cameraScale = 1,
     cameraZoom = 1,
-    imagesPath = "/images/",
+    imagesPath = "/images",
   }) {
     this.camera = {
       position: cameraPosition,
@@ -20,6 +22,7 @@ class View {
     this.ctx = canvas.getContext("2d");
     this.handleResize();
     this.fillScreen();
+    this.imagesPath = imagesPath;
     this.imageNames = imageNames;
     this.images = this.loadImages();
   }
@@ -53,7 +56,8 @@ class View {
   loadImages() {
     return this.imageNames.reduce((images, name) => {
       images[name] = new Image();
-      images[name].src = `${this.imagesPath}${name}.png`;
+      images[name].src = `${this.imagesPath}/${name}.png`;
+      return images;
     }, {});
   }
 
