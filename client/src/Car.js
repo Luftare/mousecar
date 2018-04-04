@@ -11,4 +11,12 @@ export default class Car {
     this.velocity = new Vector();
     this.direction = new Vector(1, 0);
   }
+
+  update(dt) {
+
+  }
+
+  render(ctx) {
+
+  }
 }
