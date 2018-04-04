@@ -1,9 +1,13 @@
 import Car from './Car';
+import View from './View';
 import Loop from 'loop';
 
 export default class Game {
   constructor() {
     this.state = this.getInitState();
+    this.view = new View({
+      canvas: document.getElementById('game-canvas')
+    });
 
     this.loop = new Loop({
       onTick: (dt) => {
