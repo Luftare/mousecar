@@ -1,4 +1,4 @@
-import Vector from './Vector';
+import Vector from 'vector';
 
 export default class Car {
   constructor() {

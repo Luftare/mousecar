@@ -17,5 +17,8 @@
     "webpack": "^4.4.1",
     "webpack-cli": "^2.0.13",
     "webpack-dev-server": "^3.1.1"
+  },
+  "dependencies": {
+    "vector": "git+https://github.com/Luftare/Vector.git"
   }
 }
