@@ -1,6 +1,7 @@
 import Car from './Car';
-import View from './View';
+import Input from './Input';
 import Loop from 'loop';
+import View from './View';
 
 export default class Game {
   constructor() {
@@ -10,6 +11,8 @@ export default class Game {
       imageNames: ['car'],
       imagesPath: '/src/images'
     });
+
+    this.input = new Input();
 
     this.loop = new Loop({
       onTick: (dtMs) => {
@@ -22,7 +25,7 @@ export default class Game {
   }
 
   update(dt) {
-    this.state.gameObjects.forEach(gameObject => gameObject.update(dt));
+    this.state.gameObjects.forEach(gameObject => gameObject.update(dt, this.input));
   }
 
   render() {

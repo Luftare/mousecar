@@ -7,16 +7,19 @@ export default class Car {
     this.wheelMaxAngle = Math.PI / 4;
     this.width = 50;
     this.height = 150;
-    this.position = new Vector();
+    this.position = new Vector(100, 100);
     this.velocity = new Vector();
     this.direction = new Vector(1, 0);
   }
 
-  update(dt) {
-    this.direction.rotate(1 * dt);
+  update(dt, input) {
+    const toMouse = (new Vector(input.mouse.position)).substract(this.position);
+    this.direction.lerpAlign(dt, toMouse);
+    this.velocity.set(this.direction).scale(100);
+    this.position.scaledAdd(dt, this.velocity);
   }
 
   render(view) {
-    view.drawImage('car', 20, 20, this.direction.angle, 0.1);
+    view.drawImage('car', this.position.x, this.position.y, this.direction.angle - Math.PI, 0.1);
   }
 }

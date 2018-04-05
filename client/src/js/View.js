@@ -42,14 +42,17 @@ export default class View {
     this.ctx.translate(- this.camera.position.x, - this.camera.position.y);
   }
 
-  drawImage(img, x, y, angle = 0, scale = 1) {
+  drawImage(img, x, y, angle = 0, scale = 1, anchorX = 0.5, anchorY = 0.5) {
     if(!img.width && !img.height) img = this.images[img];
     const ctx = this.ctx;
+    const sizeX = img.width * scale;
+    const sizeY = img.height * scale;
     ctx.save();
-    ctx.translate(x + img.width * scale / 2, y + img.height * scale / 2);
+    ctx.translate(- sizeX * anchorX, - sizeY * anchorY);
+    ctx.translate(x + sizeX / 2, y + sizeY / 2);
     ctx.rotate(angle);
-    ctx.translate(- x - img.width * scale / 2, - y - img.height * scale / 2);
-    ctx.drawImage(img, x, y, img.width * scale, img.height * scale);
+    ctx.translate(- x - sizeX / 2, - y - sizeY / 2);
+    ctx.drawImage(img, x, y, sizeX, sizeY);
     ctx.restore();
   }
 
