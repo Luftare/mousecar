@@ -4,8 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "dev": "webpack-dev-server --env.dev",
-    "build": "webpack"
+    "dev": "webpack-dev-server --env.dev --mode development",
+    "build": "webpack --mode production"
   },
   "author": "",
   "license": "MIT",
