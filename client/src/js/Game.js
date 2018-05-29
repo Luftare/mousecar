@@ -3,14 +3,14 @@ import Input from './Input';
 import Loop from 'loop';
 import View from './View';
 import { Smoke, SkidMark } from './Particle';
+import carSrc from '../images/car.png';
 
 export default class Game {
   constructor() {
     this.state = this.getInitState();
     this.view = new View({
       canvas: document.getElementById('game-canvas'),
-      imageNames: ['car'],
-      imagesPath: '/src/images'
+      sources: [{ name: 'car', src: carSrc }]
     });
 
     this.input = new Input();
@@ -28,27 +28,37 @@ export default class Game {
   }
 
   update(dt) {
-    this.state.gameObjects.forEach(gameObject => gameObject.update(dt, this));
-    this.particles = this.particles.filter(particle => particle.life > 0);
-    this.particles.forEach(particle => particle.update(dt));
+    this.state.gameObjects.forEach((gameObject) => gameObject.update(dt, this));
+    this.particles = this.particles.filter((particle) => particle.life > 0);
+    this.particles.forEach((particle) => particle.update(dt));
   }
 
   render() {
     const cutOff = 0.9;
     this.view.preDraw();
-    const skidmarks = this.particles.filter(particle => particle instanceof SkidMark);
-    const smokes = this.particles.filter(particle => particle instanceof Smoke);
+    const skidmarks = this.particles.filter(
+      (particle) => particle instanceof SkidMark
+    );
+    const smokes = this.particles.filter(
+      (particle) => particle instanceof Smoke
+    );
 
-    skidmarks.forEach(particle => particle.render(this.view));
-    smokes.filter(particle => particle.life > cutOff).forEach(particle => particle.render(this.view));
-    this.state.gameObjects.forEach(gameObject => gameObject.render(this.view));
-    smokes.filter(particle => particle.life < cutOff).forEach(particle => particle.render(this.view));
+    skidmarks.forEach((particle) => particle.render(this.view));
+    smokes
+      .filter((particle) => particle.life > cutOff)
+      .forEach((particle) => particle.render(this.view));
+    this.state.gameObjects.forEach((gameObject) =>
+      gameObject.render(this.view)
+    );
+    smokes
+      .filter((particle) => particle.life < cutOff)
+      .forEach((particle) => particle.render(this.view));
   }
 
   getInitState() {
     return {
       gameObjects: [new Car(200, 200)]
-    }
+    };
   }
 
   start() {
