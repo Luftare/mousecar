@@ -4,11 +4,12 @@ import { Smoke, SkidMark } from './Particle';
 export default class Car {
   constructor(x, y) {
     this.mass = 1;
-    this.friction = 500;
+    this.friction = 1000;
     this.engineForce = 300;
-    this.turnVelocity = 3;
+    this.engineMaxForce = 800;
+    this.turnVelocity = 4;
     this.wheelMaxAngle = Math.PI / 4;
-    this.maxSpeed = 400;
+    this.maxSpeed = 700;
     this.position = new Vector(x, y);
     this.velocity = new Vector();
     this.direction = new Vector(1, 0);
@@ -18,9 +19,9 @@ export default class Car {
     this.emitParticles(game);
     const toMouse = (new Vector(game.input.mouse.position)).substract(this.position);
     const mouseAngle = Math.abs(this.direction.clone().normalize().cross(toMouse.clone().normalize()));
-    this.direction.lerpAlign( mouseAngle * this.turnVelocity * dt, toMouse);
+    this.direction.lerpAlign(mouseAngle * this.turnVelocity * dt, toMouse);
 
-    const gasForce = this.direction.clone().toLength(this.engineForce);
+    const gasForce = this.direction.clone().toLength(this.engineForce * (toMouse.length - 100) * 0.01).limit(this.engineMaxForce);
     const driftAngle = this.direction.clone().normalize().cross(this.velocity.clone().normalize());
     const driftForce = this.direction.clone().normalize().rotate(Math.PI / 2).scale(-driftAngle * this.friction);
     const force = gasForce.add(driftForce);
@@ -31,8 +32,9 @@ export default class Car {
   }
 
   getWheelPositions() {
-    const left = this.direction.clone().rotate(0.35).scale(-28).add(this.position);
-    const right = this.direction.clone().rotate(-0.35).scale(-28).add(this.position);
+    const wheelsFromCenter = 28;
+    const left = this.direction.clone().rotate(0.35).scale(-wheelsFromCenter).add(this.position);
+    const right = this.direction.clone().rotate(-0.35).scale(-wheelsFromCenter).add(this.position);
     return {
       left,
       right
